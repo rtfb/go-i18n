@@ -55,8 +55,11 @@ func (pt *pluralTranslation) Backfill(src Translation) Translation {
 }
 
 func (pt *pluralTranslation) Merge(t Translation) Translation {
+	if pt.ID() == t.ID() {
+		return pt
+	}
 	other, ok := t.(*pluralTranslation)
-	if !ok || pt.ID() != t.ID() {
+	if !ok {
 		return t
 	}
 	for pluralCategory, template := range other.templates {
