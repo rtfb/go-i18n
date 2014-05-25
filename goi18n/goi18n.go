@@ -54,6 +54,10 @@ Options:
         Supported formats: json
         Default: json
 
+    -sift path
+        Extract untranslated strings from source code. Looks in all *.go
+        files under path if path is a directory or treats path as wildcard
+        if it is not.
 `)
 	os.Exit(1)
 }
@@ -63,6 +67,7 @@ func main() {
 	sourceLocale := flag.String("sourceLocale", "en-US", "")
 	outdir := flag.String("outdir", ".", "")
 	format := flag.String("format", "json", "")
+	sift := flag.String("sift", "<unspecified>", "")
 	flag.Parse()
 
 	mc := &mergeCommand{
@@ -70,6 +75,7 @@ func main() {
 		sourceLocaleID:   *sourceLocale,
 		outdir:           *outdir,
 		format:           *format,
+		sift:             *sift,
 	}
 	if err := mc.execute(); err != nil {
 		fmt.Println(err.Error())
